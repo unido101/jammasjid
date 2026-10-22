@@ -31,6 +31,18 @@
     #prayerOverlay{display:none;position:fixed;inset:0;z-index:20;background:#000;align-items:center;justify-content:center}
     body.prayer-time #prayerOverlay{display:flex}
     .dark-clock{font-size:clamp(30px,5vh,58px);font-weight:350;letter-spacing:.08em;color:#fff;font-variant-numeric:tabular-nums}
+    .main-countdown{display:none;flex-direction:column;align-items:center;margin:clamp(10px,2vh,26px) 0 0}
+    .main-count-kicker{font-size:clamp(12px,1.25vw,18px);font-weight:650;letter-spacing:.22em;text-transform:uppercase;color:#8b6925}
+    .main-count-title{font-size:clamp(15px,1.8vw,25px);font-weight:600;color:#384651;margin-top:8px}
+    .main-count-value{font-size:clamp(66px,15vw,230px);font-weight:750;line-height:.98;letter-spacing:-.075em;color:#101820;white-space:nowrap;margin-top:5px}
+    body.countdown-main .clock{order:5;font-size:clamp(34px,4vw,58px);font-weight:650;line-height:1;letter-spacing:-.035em;margin:17px 0 0}
+    body.countdown-main .clock .seconds{font-size:.45em;vertical-align:17%;font-weight:550}
+    body.countdown-main .main-countdown{display:flex;order:3}
+    body.countdown-main .clock-label{order:6;margin-top:5px}
+    body.countdown-main .count-card{display:none}
+    body.countdown-main .date-line{order:1}
+    body.countdown-main .hijri-line{order:2}
+    @media(max-width:760px){.main-count-value{font-size:clamp(42px,13vw,98px)}body.countdown-main .clock{font-size:clamp(30px,8vw,48px)}}
     @media(prefers-reduced-motion:reduce){*{transition:none!important}}
   </style>
 </head>
@@ -46,6 +58,7 @@
       <div class="center">
         <div class="date-line" id="dateLine">—</div><div class="hijri-line" id="hijriLine">—</div>
         <div class="clock" id="clock" aria-live="off">--:--<span class="seconds">:--</span></div>
+        <div class="main-countdown" id="mainCountdown"><div class="main-count-kicker" id="mainCountKicker">Menuju adzan</div><div class="main-count-title" id="mainCountTitle">Memuat jadwal…</div><div class="main-count-value" id="mainCountValue">--:--:--</div></div>
         <div class="clock-label">Waktu Indonesia Barat · WIB</div>
         <div class="count-card" id="countCard"><div class="count-info"><div class="count-kicker" id="countKicker">Menuju waktu salat</div><div class="count-title" id="countTitle">Memuat jadwal…</div></div><div class="count-value" id="countValue">--:--:--</div></div>
       </div>
@@ -57,6 +70,7 @@
   <dialog id="settingsDialog"><div class="dialog-head"><h2>Pengaturan Jam Masjid</h2><button class="close" id="closeDialog" aria-label="Tutup">×</button></div><form class="form" id="settingsForm">
     <div class="field"><label for="latitude">Lintang lokasi</label><input id="latitude" type="number" step="0.0001" required></div><div class="field"><label for="longitude">Bujur lokasi</label><input id="longitude" type="number" step="0.0001" required></div>
     <div class="field full"><label>Koreksi waktu salat (menit)</label><div class="iq-grid" id="correctionInputs"></div><span class="hint">Angka positif menambah waktu, angka negatif memajukan waktu.</span></div>
+    <div class="field full"><label>Mulai countdown besar sebelum adzan (menit)</label><div class="iq-grid" id="adhanLeadInputs"></div><span class="hint">Tentukan berapa menit sebelum adzan countdown besar mulai tampil. Sebelumnya jam tetap besar dan countdown muncul kecil. Isi 0 agar countdown besar tidak ditampilkan sebelum adzan.</span></div>
     <div class="field full"><label>Jeda adzan ke iqomah (menit)</label><div class="iq-grid" id="iqamahInputs"></div></div>
     <div class="field full"><label>Durasi layar gelap setelah iqomah (menit)</label><div class="iq-grid" id="darkInputs"></div><span class="hint">Saat countdown iqomah selesai, layar akan hitam selama durasi ini. Isi 0 untuk menonaktifkan layar gelap untuk salat tersebut.</span></div>
     <div class="field full"><label>Notifikasi suara</label><div class="audio-row"><button class="btn" type="button" id="testSound">Aktifkan &amp; tes suara</button><span class="hint" id="audioHint">Tekan sekali setelah membuka halaman agar browser mengizinkan bunyi otomatis.</span></div></div>
@@ -69,10 +83,10 @@
   (()=>{
     const PRAYERS=[['Fajr','Subuh'],['Dhuhr','Zuhur'],['Asr','Asar'],['Maghrib','Magrib'],['Isha','Isya']];
     const DISPLAY=[['Imsak','Imsak'],['Fajr','Subuh'],['Sunrise','Terbit'],['Dhuhr','Zuhur'],['Asr','Asar'],['Maghrib','Magrib'],['Isha','Isya']];
-    const DEFAULTS={latitude:-7.4297,longitude:111.0215,corrections:[0,0,0,0,0],iqamah:[10,10,10,7,10],darkDuration:[15,20,15,15,20],notice:'',soundEnabled:true};
+    const DEFAULTS={latitude:-7.4297,longitude:111.0215,corrections:[0,0,0,0,0],adhanLead:[10,10,10,10,10],iqamah:[10,10,10,7,10],darkDuration:[15,20,15,15,20],notice:'',soundEnabled:true};
     let settings={...DEFAULTS},times={},lastFetchDay='',toastTimer;
     const iqamahAudio=new Audio('./alarm-clock-sound-effects-07.wav');iqamahAudio.preload='auto';
-    try{const saved=JSON.parse(localStorage.getItem('alfalah-settings')||'{}');settings={...settings,...saved};for(const k of ['corrections','iqamah','darkDuration'])if(!Array.isArray(saved[k]))settings[k]=DEFAULTS[k];}catch{}
+    try{const saved=JSON.parse(localStorage.getItem('alfalah-settings')||'{}');settings={...settings,...saved};for(const k of ['corrections','adhanLead','iqamah','darkDuration'])if(!Array.isArray(saved[k]))settings[k]=DEFAULTS[k];}catch{}
     const $=id=>document.getElementById(id),pad=n=>String(n).padStart(2,'0');
     const dateKey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
     const prayerAt=(key,index)=>{const match=String(times[key]||'').match(/(\d{1,2}):(\d{2})/);if(!match)return null;return Number(match[1])*60+Number(match[2])+(Number(settings.corrections[index])||0)};
@@ -94,14 +108,18 @@
       }
       $('darkClock').textContent=`${pad(now.getHours())}:${pad(now.getMinutes())}`;
       document.body.classList.toggle('prayer-time',!!darkPrayer);
-      if(darkPrayer){if($('settingsDialog').open)$('settingsDialog').close();return}
+      if(darkPrayer){document.body.classList.remove('countdown-main');if($('settingsDialog').open)$('settingsDialog').close();return}
+      if(!iqamah&&!upcoming){const [key,name]=PRAYERS[0],at=prayerAt(key,0);if(at!==null)upcoming={key,name,index:0,remaining:at+1440-nowMin,tomorrow:true}}
       let mode,title,remaining,activeKey;
       if(iqamah){mode='iqamah';title=`Iqomah ${iqamah.name}`;remaining=iqamah.remaining;activeKey=iqamah.key}
-      else if(upcoming){mode='adhan';title=upcoming.name;remaining=upcoming.remaining;activeKey=upcoming.key}
+      else if(upcoming){mode='adhan';title=upcoming.tomorrow?`${upcoming.name} besok`:upcoming.name;remaining=upcoming.remaining;activeKey=upcoming.key}
       else {const [key,name]=PRAYERS[0],at=prayerAt(key,0);mode='adhan';title=`${name} besok`;remaining=at===null?null:at+1440-nowMin;activeKey=key}
+      const lead=upcoming?Math.max(0,Number(settings.adhanLead[upcoming.index])||0):0;
+      document.body.classList.toggle('countdown-main',!!iqamah||!!upcoming&&lead>0&&upcoming.remaining<=lead);
       $('countKicker').textContent=mode==='iqamah'?'Menuju iqomah':'Menuju adzan';$('countTitle').textContent=mode==='iqamah'?`Iqomah ${title.replace('Iqomah ','')}`:title;
       $('countCard').classList.toggle('urgent',mode==='iqamah');
-      if(remaining===null){$('countValue').textContent='--:--:--'}else{const secs=Math.max(0,Math.floor(remaining*60));$('countValue').textContent=`${pad(Math.floor(secs/3600))}:${pad(Math.floor(secs%3600/60))}:${pad(secs%60)}`}
+      const countText=remaining===null?'--:--:--':(()=>{const secs=Math.max(0,Math.floor(remaining*60));return `${pad(Math.floor(secs/3600))}:${pad(Math.floor(secs%3600/60))}:${pad(secs%60)}`})();
+      $('countValue').textContent=countText;$('mainCountValue').textContent=countText;$('mainCountKicker').textContent=mode==='iqamah'?'Menuju iqomah':'Menuju adzan';$('mainCountTitle').textContent=mode==='iqamah'?iqamah.name:title;
       document.querySelectorAll('.prayer').forEach(el=>el.classList.toggle('active',el.dataset.key===activeKey));
     }
     function tick(){const now=new Date();$('clock').innerHTML=`${pad(now.getHours())}:${pad(now.getMinutes())}<span class="seconds">:${pad(now.getSeconds())}</span>`;const greg=new Intl.DateTimeFormat('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(now);let hijri='';try{hijri=new Intl.DateTimeFormat('id-ID-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(now)+' H'}catch{}$('gregorian').textContent=greg;$('dateLine').textContent=greg;$('hijri').textContent=hijri;$('hijriLine').textContent=hijri;if(dateKey(now)!==lastFetchDay)loadTimes();updateCountdown(now)}
@@ -109,14 +127,14 @@
       try{const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error('Jadwal tidak dapat diambil');const json=await response.json();if(json.code!==200)throw Error('Data jadwal tidak tersedia');times=json.data.timings;localStorage.setItem('alfalah-times',JSON.stringify({day:today,times,latitude:settings.latitude,longitude:settings.longitude}));$('apiStatus').textContent='Metode Kemenag RI · diperbarui otomatis setiap hari';}
       catch(e){try{const cached=JSON.parse(localStorage.getItem('alfalah-times')||'null');if(cached&&cached.latitude===settings.latitude&&cached.longitude===settings.longitude){times=cached.times;$('apiStatus').textContent='Jadwal tersimpan · internet tidak tersedia';}else throw e}catch{$('apiStatus').textContent='Jadwal belum tersedia · periksa koneksi internet'}}renderPrayers();updateCountdown(new Date())
     }
-    function buildInputs(id,values,suffix){const host=$(id);const min=suffix==='koreksi'?-90:0,max=suffix==='gelap'?120:90;host.innerHTML=PRAYERS.map(([,name],i)=>`<div class="iq-cell"><label for="${id}-${i}">${name}</label><input id="${id}-${i}" type="number" min="${min}" max="${max}" step="1" value="${values[i]??0}" required></div>`).join('')}
-    function openSettings(){$('latitude').value=settings.latitude;$('longitude').value=settings.longitude;buildInputs('correctionInputs',settings.corrections,'koreksi');buildInputs('iqamahInputs',settings.iqamah,'menit');buildInputs('darkInputs',settings.darkDuration,'gelap');$('noticeInput').value=settings.notice||'';$('settingsDialog').showModal()}
+    function buildInputs(id,values,suffix){const host=$(id);const min=suffix==='koreksi'?-90:0,max=suffix==='gelap'?120:suffix==='adhan'?180:90;host.innerHTML=PRAYERS.map(([,name],i)=>`<div class="iq-cell"><label for="${id}-${i}">${name}</label><input id="${id}-${i}" type="number" min="${min}" max="${max}" step="1" value="${values[i]??0}" required></div>`).join('')}
+    function openSettings(){$('latitude').value=settings.latitude;$('longitude').value=settings.longitude;buildInputs('correctionInputs',settings.corrections,'koreksi');buildInputs('adhanLeadInputs',settings.adhanLead,'adhan');buildInputs('iqamahInputs',settings.iqamah,'menit');buildInputs('darkInputs',settings.darkDuration,'gelap');$('noticeInput').value=settings.notice||'';$('settingsDialog').showModal()}
     $('settingsBtn').addEventListener('click',openSettings);$('closeDialog').addEventListener('click',()=>$('settingsDialog').close());$('cancelBtn').addEventListener('click',()=>$('settingsDialog').close());
-    $('settingsForm').addEventListener('submit',e=>{e.preventDefault();settings={...settings,latitude:Number($('latitude').value),longitude:Number($('longitude').value),corrections:PRAYERS.map((_,i)=>Number($(`correctionInputs-${i}`).value)),iqamah:PRAYERS.map((_,i)=>Number($(`iqamahInputs-${i}`).value)),darkDuration:PRAYERS.map((_,i)=>Number($(`darkInputs-${i}`).value)),notice:$('noticeInput').value.trim()};if(settings.iqamah.some(v=>v<0||v>90)||settings.corrections.some(v=>v< -90||v>90)||settings.darkDuration.some(v=>v<0||v>120)){toast('Jeda iqomah harus 0–90 menit dan layar gelap 0–120 menit.');return}localStorage.setItem('alfalah-settings',JSON.stringify(settings));$('settingsDialog').close();renderPrayers();loadTimes(true);toast('Pengaturan tersimpan')});
+    $('settingsForm').addEventListener('submit',e=>{e.preventDefault();settings={...settings,latitude:Number($('latitude').value),longitude:Number($('longitude').value),corrections:PRAYERS.map((_,i)=>Number($(`correctionInputs-${i}`).value)),adhanLead:PRAYERS.map((_,i)=>Number($(`adhanLeadInputs-${i}`).value)),iqamah:PRAYERS.map((_,i)=>Number($(`iqamahInputs-${i}`).value)),darkDuration:PRAYERS.map((_,i)=>Number($(`darkInputs-${i}`).value)),notice:$('noticeInput').value.trim()};if(settings.iqamah.some(v=>v<0||v>90)||settings.adhanLead.some(v=>v<0||v>180)||settings.corrections.some(v=>v< -90||v>90)||settings.darkDuration.some(v=>v<0||v>120)){toast('Countdown adzan harus 0–180 menit, jeda iqomah 0–90 menit, dan layar gelap 0–120 menit.');return}localStorage.setItem('alfalah-settings',JSON.stringify(settings));$('settingsDialog').close();renderPrayers();loadTimes(true);toast('Pengaturan tersimpan')});
     $('testSound').addEventListener('click',async()=>{try{settings.soundEnabled=true;localStorage.setItem('alfalah-settings',JSON.stringify(settings));iqamahAudio.currentTime=0;await iqamahAudio.play();$('audioHint').textContent='Suara aktif. File nada notifikasi berhasil diputar.'}catch{$('audioHint').textContent='Browser belum dapat memutar audio. Periksa volume dan izin suara TV/browser.'}});
     $('fullscreenBtn').addEventListener('click',async()=>{try{await document.documentElement.requestFullscreen();$('settingsDialog').close()}catch{toast('Fullscreen tidak didukung browser ini.')}});
     document.addEventListener('keydown',e=>{if(e.key.toLowerCase()==='f'&&!e.ctrlKey&&!e.altKey&&!e.metaKey&&!$('settingsDialog').open)document.documentElement.requestFullscreen?.().catch(()=>{})});
-    buildInputs('correctionInputs',settings.corrections,'koreksi');buildInputs('iqamahInputs',settings.iqamah,'menit');buildInputs('darkInputs',settings.darkDuration,'gelap');renderPrayers();loadTimes();tick();setInterval(tick,1000);
+    buildInputs('correctionInputs',settings.corrections,'koreksi');buildInputs('adhanLeadInputs',settings.adhanLead,'adhan');buildInputs('iqamahInputs',settings.iqamah,'menit');buildInputs('darkInputs',settings.darkDuration,'gelap');renderPrayers();loadTimes();tick();setInterval(tick,1000);
   })();
   </script>
 </body>
