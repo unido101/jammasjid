@@ -43,14 +43,61 @@
     body.countdown-main .date-line{order:1}
     body.countdown-main .hijri-line{order:2}
     @media(max-width:760px){.main-count-value{font-size:clamp(42px,13vw,98px)}body.countdown-main .clock{font-size:clamp(30px,8vw,48px)}}
+    .field select{width:100%;border:1px solid rgba(38,52,65,.2);border-radius:8px;padding:11px;background:#f8fafb;color:#13191f;font:inherit}
+    .settings-group{grid-column:1/-1;min-width:0;margin:0;border:1px solid rgba(38,52,65,.16);border-radius:12px;padding:13px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .settings-group legend{padding:0 8px;color:#80621f;font-size:11px;font-weight:750;letter-spacing:.12em;text-transform:uppercase}
+    .background-tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.background-preview{width:92px;height:54px;object-fit:cover;border:1px solid rgba(38,52,65,.18);border-radius:7px;background:#edf1f4}.background-meta{display:flex;flex:1 1 220px;flex-direction:column;gap:7px;min-width:0}.background-name{font-size:11px;color:#596775;max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .announcement{display:none;position:absolute;z-index:2;left:clamp(12px,2vw,24px);right:clamp(12px,2vw,24px);bottom:clamp(12px,2vh,22px);padding:9px 14px;border-radius:8px;background:rgba(255,255,255,.86);color:#273541;font-size:clamp(11px,1vw,14px);font-weight:600;text-align:center;box-shadow:0 3px 15px #182d4017;backdrop-filter:blur(7px)}
+    body.has-announcement main .announcement{display:block}
+    body.has-custom-background main{background-image:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.64)),var(--custom-bg-image)!important;background-size:cover!important;background-position:center!important}
+    body.has-custom-background main:before,body.has-custom-background main:after{display:none}
+    body.has-custom-background[data-layout="card"] main{background-image:linear-gradient(90deg,rgba(248,250,251,.96) 0%,rgba(248,250,251,.9) 34%,rgba(248,250,251,.18) 58%,rgba(10,29,44,.12) 100%),var(--custom-bg-image)!important}
+    body.has-custom-background[data-layout="banner"] main{background-image:linear-gradient(180deg,rgba(7,24,45,.25),rgba(7,24,45,.48)),var(--custom-bg-image)!important}
+    body.has-custom-background[data-layout="banner"] .date-line,body.has-custom-background[data-layout="banner"] .hijri-line,body.has-custom-background[data-layout="banner"] .clock-label,body.has-custom-background[data-layout="banner"] .clock,body.has-custom-background[data-layout="banner"] .clock .seconds,body.has-custom-background[data-layout="banner"] .main-count-kicker,body.has-custom-background[data-layout="banner"] .main-count-title,body.has-custom-background[data-layout="banner"] .main-count-value{color:#fff}
+    body.has-custom-background[data-layout="sidebar"] main{background-image:linear-gradient(rgba(255,255,255,.64),rgba(255,255,255,.64)),var(--custom-bg-image)!important}
+    body[data-layout="card"] .shell{padding:clamp(14px,2.3vh,28px) clamp(18px,3vw,48px);gap:clamp(12px,2vh,22px)}
+    body[data-layout="card"] main{display:grid;grid-template-columns:minmax(300px,35%) 1fr;align-items:stretch;background:linear-gradient(90deg,#f8fafb 0 35%,transparent 35%),linear-gradient(135deg,#dcecf0,#a9c7d0 52%,#718f9a)}
+    body[data-layout="card"] main:before{left:39%;top:8%;width:58%;height:82%;aspect-ratio:auto;border:0;border-radius:22px;background:linear-gradient(180deg,transparent 0 42%,rgba(33,76,82,.22) 42%),radial-gradient(ellipse at 68% 35%,#faf7e8 0 8%,transparent 8.5%),linear-gradient(160deg,transparent 0 34%,#d2c4a4 34% 61%,#f0eee5 61% 78%,#7fa09a 78%);box-shadow:0 12px 38px #253d4820}
+    body[data-layout="card"] main:after{right:4%;bottom:6%;width:48%;height:43%;aspect-ratio:auto;border:1px solid #ffffffaa;border-radius:16px;background:linear-gradient(180deg,#ffffffb8,#ffffff80);backdrop-filter:blur(3px)}
+    body[data-layout="card"] .center{width:100%;height:100%;padding:clamp(14px,2vw,28px);justify-content:center}
+    body[data-layout="card"] .clock{font-size:clamp(68px,9vw,145px);letter-spacing:-.07em}
+    body[data-layout="card"] .main-count-value{font-size:clamp(42px,6vw,92px)}
+    body[data-layout="card"].countdown-main .clock{font-size:clamp(30px,3vw,45px);margin:9px 0 0}
+    body[data-layout="card"].countdown-main .main-count-value{font-size:clamp(38px,5vw,76px)}
+    body[data-layout="card"] .count-card{min-width:100%;gap:8px;padding:10px 8px;margin-top:14px}
+    body[data-layout="card"] .count-value{font-size:clamp(19px,2.7vw,34px);min-width:110px}
+    body[data-layout="card"] footer{background:#087658;color:white;border-color:#087658}
+    body[data-layout="card"] .prayer{border-color:#ffffff44}body[data-layout="card"] .prayer.active{background:#034e3b}body[data-layout="card"] .prayer.active:before{background:#e8c86d}
+    body[data-layout="card"] .p-name,body[data-layout="card"] .p-time{color:white}
+    body[data-layout="banner"]{background:linear-gradient(180deg,#f7f9fa 0 17%,#123a5c 17% 83%,#f0f2f3 83%)}
+    body[data-layout="banner"]:before{opacity:.3;background:radial-gradient(ellipse at 52% 53%,#78b5dc 0,#3075a0 30%,#173e61 72%,transparent 73%)}
+    body[data-layout="banner"] .shell{padding:clamp(10px,2vh,25px) clamp(14px,2.2vw,38px);gap:clamp(10px,1.7vh,20px)}
+    body[data-layout="banner"] header{background:#fff;border-color:#d5dce1;border-radius:8px;box-shadow:0 3px 14px #10283a18}
+    body[data-layout="banner"] main{border-radius:8px;border-color:#ffffff66;background:linear-gradient(180deg,#4d9dca 0,#286e9d 45%,#123a5c 100%);box-shadow:inset 0 0 100px #092b4b55,0 12px 40px #122b4020}
+    body[data-layout="banner"] main:before{left:0;top:0;width:100%;height:100%;aspect-ratio:auto;border:0;border-radius:0;background:radial-gradient(ellipse at 51% 48%,#f1e9d7 0 7%,transparent 7.5%),linear-gradient(90deg,transparent 0 18%,#d6c6a9 18% 21%,transparent 21% 35%,#d6c6a9 35% 38%,transparent 38% 63%,#d6c6a9 63% 66%,transparent 66% 80%,#d6c6a9 80% 83%,transparent 83%),linear-gradient(180deg,transparent 0 59%,#c6b18e 59% 63%,#f1ece0 63% 78%,#79938a 78%);opacity:.48}
+    body[data-layout="banner"] main:after{display:none}
+    body[data-layout="banner"] .date-line,body[data-layout="banner"] .hijri-line,body[data-layout="banner"] .clock-label{color:#f5f8fb}
+    body[data-layout="banner"] .clock{color:#fff;text-shadow:0 3px 10px #10283a88}body[data-layout="banner"] .clock .seconds{color:#e9eef3}
+    body[data-layout="banner"] .main-count-kicker,body[data-layout="banner"] .main-count-title,body[data-layout="banner"] .main-count-value{color:#fff;text-shadow:0 2px 10px #10283a88}
+    body[data-layout="banner"].countdown-main .clock{font-size:clamp(34px,4vw,58px)}
+    body[data-layout="banner"] .count-card{background:#ffffffde;border-color:#fff}
+    body[data-layout="banner"] footer{border-radius:8px;gap:3px;border:0;background:transparent;overflow:visible}
+    body[data-layout="banner"] .prayer{border:0;border-radius:8px;background:#fff;box-shadow:0 3px 12px #10283a18}
+    body[data-layout="banner"] .prayer:nth-child(1){background:#118264;color:#fff}body[data-layout="banner"] .prayer:nth-child(2){background:#087eb6;color:#fff}body[data-layout="banner"] .prayer:nth-child(3){background:#1599b5;color:#fff}body[data-layout="banner"] .prayer:nth-child(4){background:#e1aa32;color:#fff}body[data-layout="banner"] .prayer:nth-child(5){background:#824ac0;color:#fff}body[data-layout="banner"] .prayer:nth-child(6){background:#e9573f;color:#fff}body[data-layout="banner"] .prayer:nth-child(7){background:#303c97;color:#fff}
+    body[data-layout="banner"] .p-name,body[data-layout="banner"] .p-time{color:inherit}body[data-layout="banner"] .prayer.active{outline:3px solid #fff;outline-offset:-3px;filter:brightness(1.08)}
+    @media(min-width:761px){body[data-layout="sidebar"] .shell{grid-template-columns:minmax(170px,22%) 1fr;grid-template-rows:auto minmax(0,1fr);gap:clamp(12px,2vh,24px)}body[data-layout="sidebar"] header{grid-column:2;grid-row:1}body[data-layout="sidebar"] main{grid-column:2;grid-row:2}body[data-layout="sidebar"] footer{grid-column:1;grid-row:1 / span 2;display:grid;grid-template-columns:1fr;grid-template-rows:repeat(7,minmax(0,1fr));border-radius:18px}body[data-layout="sidebar"] .prayer{border-right:0;border-bottom:1px solid rgba(19,38,59,.12)}body[data-layout="sidebar"] .prayer:last-child{border-bottom:0}body[data-layout="sidebar"] .p-name{font-size:clamp(12px,1.2vw,16px)}body[data-layout="sidebar"] .p-time{font-size:clamp(20px,2vw,30px)}body[data-layout="sidebar"] .clock{font-size:clamp(150px,22vw,340px)}body[data-layout="sidebar"].countdown-main .clock{font-size:clamp(34px,4vw,58px)}}
+    body[data-layout="sidebar"] main{background:linear-gradient(145deg,#e7eef2,#fafbfc);border-radius:20px}
+    body[data-layout="sidebar"] main:before{left:8%;top:9%;width:84%;height:82%;aspect-ratio:auto;border:0;border-radius:20px;background:radial-gradient(ellipse at 50% 48%,#fff 0 9%,transparent 9.5%),linear-gradient(180deg,#7bb3d2 0 42%,#668b9b 42% 48%,#dfd6c5 48% 73%,#889d91 73%);opacity:.28}
+    body[data-layout="sidebar"] main:after{display:none}
+    @media(max-width:760px){body[data-layout="card"] main{display:flex;background:linear-gradient(180deg,#f8fafb 0 49%,#a9c7d0 49%)}body[data-layout="card"] main:before{left:5%;top:52%;width:90%;height:35%}body[data-layout="card"] main:after{display:none}body[data-layout="card"] .center{width:100%}body[data-layout="sidebar"] .shell{grid-template-columns:1fr;grid-template-rows:auto minmax(390px,1fr) auto}body[data-layout="sidebar"] header,body[data-layout="sidebar"] main,body[data-layout="sidebar"] footer{grid-column:auto;grid-row:auto}body[data-layout="sidebar"] footer{grid-template-columns:repeat(4,1fr);grid-template-rows:auto}body[data-layout="sidebar"] .prayer{border-right:1px solid rgba(19,38,59,.12);border-bottom:1px solid rgba(19,38,59,.12)}body[data-layout="sidebar"] .clock{font-size:clamp(100px,25vw,190px)}body[data-layout="sidebar"].countdown-main .clock{font-size:clamp(30px,8vw,48px)}}
     @media(prefers-reduced-motion:reduce){*{transition:none!important}}
   </style>
 </head>
 <body>
   <div class="shell">
     <header>
-      <div class="brand"><div class="emblem" aria-hidden="true">☾</div><div><div class="eyebrow">Papan Waktu Ibadah</div><h1>Masjid Raya Al-Falah</h1></div></div>
-      <div class="place">Kabupaten Sragen · Jawa Tengah</div>
+      <div class="brand"><div class="emblem" aria-hidden="true">☾</div><div><div class="eyebrow">Papan Waktu Ibadah</div><h1 id="mosqueNameDisplay">Masjid Raya Al-Falah</h1></div></div>
+      <div class="place" id="placeNameDisplay">Kabupaten Sragen · Jawa Tengah</div>
       <div class="top-date"><div class="greg" id="gregorian">—</div><div class="hijri" id="hijri">—</div></div>
       <button class="icon-btn" id="settingsBtn" aria-label="Pengaturan" title="Pengaturan">⚙</button>
     </header>
@@ -62,20 +109,35 @@
         <div class="clock-label">Waktu Indonesia Barat · WIB</div>
         <div class="count-card" id="countCard"><div class="count-info"><div class="count-kicker" id="countKicker">Menuju waktu salat</div><div class="count-title" id="countTitle">Memuat jadwal…</div></div><div class="count-value" id="countValue">--:--:--</div></div>
       </div>
+      <div class="announcement" id="announcementDisplay"></div>
       <div class="api-status" id="apiStatus">Memuat jadwal salat…</div>
     </main>
     <footer id="prayerList" aria-label="Jadwal salat hari ini"></footer>
   </div>
   <div id="prayerOverlay" aria-label="Waktu sholat"><time class="dark-clock" id="darkClock">00:00</time></div>
   <dialog id="settingsDialog"><div class="dialog-head"><h2>Pengaturan Jam Masjid</h2><button class="close" id="closeDialog" aria-label="Tutup">×</button></div><form class="form" id="settingsForm">
-    <div class="field"><label for="latitude">Lintang lokasi</label><input id="latitude" type="number" step="0.0001" required></div><div class="field"><label for="longitude">Bujur lokasi</label><input id="longitude" type="number" step="0.0001" required></div>
-    <div class="field full"><label>Koreksi waktu salat (menit)</label><div class="iq-grid" id="correctionInputs"></div><span class="hint">Angka positif menambah waktu, angka negatif memajukan waktu.</span></div>
-    <div class="field full"><label>Mulai countdown besar sebelum adzan (menit)</label><div class="iq-grid" id="adhanLeadInputs"></div><span class="hint">Tentukan berapa menit sebelum adzan countdown besar mulai tampil. Sebelumnya jam tetap besar dan countdown muncul kecil. Isi 0 agar countdown besar tidak ditampilkan sebelum adzan.</span></div>
-    <div class="field full"><label>Jeda adzan ke iqomah (menit)</label><div class="iq-grid" id="iqamahInputs"></div></div>
-    <div class="field full"><label>Durasi layar gelap setelah iqomah (menit)</label><div class="iq-grid" id="darkInputs"></div><span class="hint">Saat countdown iqomah selesai, layar akan hitam selama durasi ini. Isi 0 untuk menonaktifkan layar gelap untuk salat tersebut.</span></div>
-    <div class="field full"><label>Notifikasi suara</label><div class="audio-row"><button class="btn" type="button" id="testSound">Aktifkan &amp; tes suara</button><span class="hint" id="audioHint">Tekan sekali setelah membuka halaman agar browser mengizinkan bunyi otomatis.</span></div></div>
-    <div class="field full"><label for="noticeInput">Pengumuman layar</label><input id="noticeInput" type="text" maxlength="110" placeholder="Opsional"></div>
-    <div class="field full"><button class="btn" type="button" id="fullscreenBtn">Tampilkan fullscreen</button><span class="hint">Pengaturan tersimpan di browser perangkat ini. Jadwal perlu koneksi internet.</span></div>
+    <fieldset class="settings-group"><legend>Lokasi dan nama masjid</legend>
+      <div class="field"><label for="mosqueNameInput">Nama masjid</label><input id="mosqueNameInput" type="text" maxlength="70" required></div>
+      <div class="field"><label for="placeNameInput">Keterangan lokasi</label><input id="placeNameInput" type="text" maxlength="90" required></div>
+      <div class="field"><label for="latitude">Lintang</label><input id="latitude" type="number" step="0.0001" required></div>
+      <div class="field"><label for="longitude">Bujur</label><input id="longitude" type="number" step="0.0001" required></div>
+    </fieldset>
+    <fieldset class="settings-group"><legend>Koreksi waktu salat dan iqomah</legend>
+      <div class="field full"><label>Koreksi waktu salat (menit)</label><div class="iq-grid" id="correctionInputs"></div><span class="hint">Angka positif menambah waktu, angka negatif memajukan waktu.</span></div>
+      <div class="field full"><label>Mulai countdown besar sebelum adzan (menit)</label><div class="iq-grid" id="adhanLeadInputs"></div><span class="hint">Tentukan berapa menit sebelum adzan countdown besar mulai tampil.</span></div>
+      <div class="field full"><label>Jeda adzan ke iqomah (menit)</label><div class="iq-grid" id="iqamahInputs"></div></div>
+      <div class="field full"><label>Durasi layar gelap setelah iqomah (menit)</label><div class="iq-grid" id="darkInputs"></div><span class="hint">Isi 0 untuk menonaktifkan layar gelap untuk salat tersebut.</span></div>
+      <div class="field full"><label>Notifikasi suara</label><div class="audio-row"><button class="btn" type="button" id="testSound">Aktifkan &amp; tes suara</button><span class="hint" id="audioHint">Tekan sekali setelah membuka halaman agar browser mengizinkan bunyi otomatis.</span></div></div>
+    </fieldset>
+    <fieldset class="settings-group"><legend>Layout jam</legend>
+      <div class="field full"><label for="layoutSelect">Model tampilan layar</label><select id="layoutSelect"><option value="center">Tengah minimal</option><option value="card">Panel hijau &amp; visual</option><option value="banner">Banner layar lebar</option><option value="sidebar">Jadwal di sisi kiri</option></select></div>
+      <div class="field full"><label for="backgroundInput">Gambar latar belakang</label><div class="background-tools"><img class="background-preview" id="backgroundPreview" alt="Pratinjau latar belakang" hidden><div class="background-meta"><input id="backgroundInput" type="file" accept="image/*"><span class="background-name" id="backgroundName">Belum ada gambar dipilih</span></div><button class="btn" id="clearBackground" type="button">Hapus gambar</button></div><span class="hint">Gambar disimpan di browser TV ini. Rekomendasi rasio 16:9; pilih foto masjid atau gambar pemandangan.</span></div>
+      <div class="field full"><button class="btn" type="button" id="fullscreenBtn">Tampilkan fullscreen</button></div>
+    </fieldset>
+    <fieldset class="settings-group"><legend>Pengumuman</legend>
+      <div class="field full"><label for="noticeInput">Teks pengumuman pada layar</label><input id="noticeInput" type="text" maxlength="110" placeholder="Contoh: Mohon luruskan dan rapatkan saf"></div>
+    </fieldset>
+    <div class="field full"><span class="hint">Pengaturan tersimpan di browser perangkat ini. Jadwal salat perlu koneksi internet.</span></div>
     <div class="actions"><button class="btn" type="button" id="cancelBtn">Batal</button><button class="btn primary" type="submit">Simpan pengaturan</button></div>
   </form></dialog>
   <div class="toast" id="toast"></div>
@@ -83,11 +145,20 @@
   (()=>{
     const PRAYERS=[['Fajr','Subuh'],['Dhuhr','Zuhur'],['Asr','Asar'],['Maghrib','Magrib'],['Isha','Isya']];
     const DISPLAY=[['Imsak','Imsak'],['Fajr','Subuh'],['Sunrise','Terbit'],['Dhuhr','Zuhur'],['Asr','Asar'],['Maghrib','Magrib'],['Isha','Isya']];
-    const DEFAULTS={latitude:-7.4297,longitude:111.0215,corrections:[0,0,0,0,0],adhanLead:[10,10,10,10,10],iqamah:[10,10,10,7,10],darkDuration:[15,20,15,15,20],notice:'',soundEnabled:true};
+    const DEFAULTS={mosqueName:'Masjid Raya Al-Falah Sragen',placeName:'Kabupaten Sragen · Jawa Tengah',latitude:-7.4297,longitude:111.0215,layout:'center',corrections:[0,0,0,0,0],adhanLead:[10,10,10,10,10],iqamah:[10,10,10,7,10],darkDuration:[15,20,15,15,20],notice:'',backgroundName:'',soundEnabled:true};
     let settings={...DEFAULTS},times={},lastFetchDay='',toastTimer;
     const iqamahAudio=new Audio('./alarm-clock-sound-effects-07.wav');iqamahAudio.preload='auto';
     try{const saved=JSON.parse(localStorage.getItem('alfalah-settings')||'{}');settings={...settings,...saved};for(const k of ['corrections','adhanLead','iqamah','darkDuration'])if(!Array.isArray(saved[k]))settings[k]=DEFAULTS[k];}catch{}
     const $=id=>document.getElementById(id),pad=n=>String(n).padStart(2,'0');
+    const LAYOUTS=['center','card','banner','sidebar'];
+    function setLayout(value){settings.layout=LAYOUTS.includes(value)?value:'center';document.body.dataset.layout=settings.layout;const select=$('layoutSelect');if(select)select.value=settings.layout}
+    setLayout(settings.layout);
+    let backgroundDbPromise=null,backgroundUrl='';
+    function openBackgroundDB(){if(!('indexedDB'in window))return Promise.reject(Error('Penyimpanan gambar tidak didukung'));if(!backgroundDbPromise)backgroundDbPromise=new Promise((resolve,reject)=>{const request=indexedDB.open('alfalah-display-assets',1);request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains('assets'))request.result.createObjectStore('assets')};request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error)});return backgroundDbPromise}
+    async function storeBackground(blob){const db=await openBackgroundDB();return new Promise((resolve,reject)=>{const tx=db.transaction('assets','readwrite'),store=tx.objectStore('assets');if(blob)store.put(blob,'background');else store.delete('background');tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)})}
+    async function readBackground(){const db=await openBackgroundDB();return new Promise((resolve,reject)=>{const request=db.transaction('assets','readonly').objectStore('assets').get('background');request.onsuccess=()=>resolve(request.result||null);request.onerror=()=>reject(request.error)})}
+    function applyBackground(blob){if(backgroundUrl)URL.revokeObjectURL(backgroundUrl);backgroundUrl='';if(blob){backgroundUrl=URL.createObjectURL(blob);document.documentElement.style.setProperty('--custom-bg-image',`url("${backgroundUrl}")`);document.body.classList.add('has-custom-background');$('backgroundPreview').src=backgroundUrl;$('backgroundPreview').hidden=false;$('backgroundName').textContent=settings.backgroundName||'Gambar latar tersimpan'}else{document.documentElement.style.removeProperty('--custom-bg-image');document.body.classList.remove('has-custom-background');$('backgroundPreview').removeAttribute('src');$('backgroundPreview').hidden=true;$('backgroundName').textContent='Belum ada gambar dipilih'}}
+    function applyTextSettings(){ $('mosqueNameDisplay').textContent=settings.mosqueName||DEFAULTS.mosqueName;$('placeNameDisplay').textContent=settings.placeName||DEFAULTS.placeName;$('announcementDisplay').textContent=settings.notice||'';document.body.classList.toggle('has-announcement',!!settings.notice?.trim()) }
     const dateKey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
     const prayerAt=(key,index)=>{const match=String(times[key]||'').match(/(\d{1,2}):(\d{2})/);if(!match)return null;return Number(match[1])*60+Number(match[2])+(Number(settings.corrections[index])||0)};
     function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2700)}
@@ -128,12 +199,15 @@
       catch(e){try{const cached=JSON.parse(localStorage.getItem('alfalah-times')||'null');if(cached&&cached.latitude===settings.latitude&&cached.longitude===settings.longitude){times=cached.times;$('apiStatus').textContent='Jadwal tersimpan · internet tidak tersedia';}else throw e}catch{$('apiStatus').textContent='Jadwal belum tersedia · periksa koneksi internet'}}renderPrayers();updateCountdown(new Date())
     }
     function buildInputs(id,values,suffix){const host=$(id);const min=suffix==='koreksi'?-90:0,max=suffix==='gelap'?120:suffix==='adhan'?180:90;host.innerHTML=PRAYERS.map(([,name],i)=>`<div class="iq-cell"><label for="${id}-${i}">${name}</label><input id="${id}-${i}" type="number" min="${min}" max="${max}" step="1" value="${values[i]??0}" required></div>`).join('')}
-    function openSettings(){$('latitude').value=settings.latitude;$('longitude').value=settings.longitude;buildInputs('correctionInputs',settings.corrections,'koreksi');buildInputs('adhanLeadInputs',settings.adhanLead,'adhan');buildInputs('iqamahInputs',settings.iqamah,'menit');buildInputs('darkInputs',settings.darkDuration,'gelap');$('noticeInput').value=settings.notice||'';$('settingsDialog').showModal()}
+    function openSettings(){$('mosqueNameInput').value=settings.mosqueName||DEFAULTS.mosqueName;$('placeNameInput').value=settings.placeName||DEFAULTS.placeName;$('latitude').value=settings.latitude;$('longitude').value=settings.longitude;setLayout(settings.layout);buildInputs('correctionInputs',settings.corrections,'koreksi');buildInputs('adhanLeadInputs',settings.adhanLead,'adhan');buildInputs('iqamahInputs',settings.iqamah,'menit');buildInputs('darkInputs',settings.darkDuration,'gelap');$('noticeInput').value=settings.notice||'';$('backgroundName').textContent=settings.backgroundName||'Belum ada gambar dipilih';$('settingsDialog').showModal()}
     $('settingsBtn').addEventListener('click',openSettings);$('closeDialog').addEventListener('click',()=>$('settingsDialog').close());$('cancelBtn').addEventListener('click',()=>$('settingsDialog').close());
-    $('settingsForm').addEventListener('submit',e=>{e.preventDefault();settings={...settings,latitude:Number($('latitude').value),longitude:Number($('longitude').value),corrections:PRAYERS.map((_,i)=>Number($(`correctionInputs-${i}`).value)),adhanLead:PRAYERS.map((_,i)=>Number($(`adhanLeadInputs-${i}`).value)),iqamah:PRAYERS.map((_,i)=>Number($(`iqamahInputs-${i}`).value)),darkDuration:PRAYERS.map((_,i)=>Number($(`darkInputs-${i}`).value)),notice:$('noticeInput').value.trim()};if(settings.iqamah.some(v=>v<0||v>90)||settings.adhanLead.some(v=>v<0||v>180)||settings.corrections.some(v=>v< -90||v>90)||settings.darkDuration.some(v=>v<0||v>120)){toast('Countdown adzan harus 0–180 menit, jeda iqomah 0–90 menit, dan layar gelap 0–120 menit.');return}localStorage.setItem('alfalah-settings',JSON.stringify(settings));$('settingsDialog').close();renderPrayers();loadTimes(true);toast('Pengaturan tersimpan')});
+    $('settingsForm').addEventListener('submit',e=>{e.preventDefault();settings={...settings,mosqueName:$('mosqueNameInput').value.trim()||DEFAULTS.mosqueName,placeName:$('placeNameInput').value.trim()||DEFAULTS.placeName,latitude:Number($('latitude').value),longitude:Number($('longitude').value),layout:$('layoutSelect').value,corrections:PRAYERS.map((_,i)=>Number($(`correctionInputs-${i}`).value)),adhanLead:PRAYERS.map((_,i)=>Number($(`adhanLeadInputs-${i}`).value)),iqamah:PRAYERS.map((_,i)=>Number($(`iqamahInputs-${i}`).value)),darkDuration:PRAYERS.map((_,i)=>Number($(`darkInputs-${i}`).value)),notice:$('noticeInput').value.trim()};if(settings.iqamah.some(v=>v<0||v>90)||settings.adhanLead.some(v=>v<0||v>180)||settings.corrections.some(v=>v< -90||v>90)||settings.darkDuration.some(v=>v<0||v>120)){toast('Countdown adzan harus 0–180 menit, jeda iqomah 0–90 menit, dan layar gelap 0–120 menit.');return}setLayout(settings.layout);applyTextSettings();localStorage.setItem('alfalah-settings',JSON.stringify(settings));$('settingsDialog').close();renderPrayers();loadTimes(true);toast('Pengaturan tersimpan')});
     $('testSound').addEventListener('click',async()=>{try{settings.soundEnabled=true;localStorage.setItem('alfalah-settings',JSON.stringify(settings));iqamahAudio.currentTime=0;await iqamahAudio.play();$('audioHint').textContent='Suara aktif. File nada notifikasi berhasil diputar.'}catch{$('audioHint').textContent='Browser belum dapat memutar audio. Periksa volume dan izin suara TV/browser.'}});
+    $('backgroundInput').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;if(!file.type.startsWith('image/')){toast('Pilih file gambar.');return}if(file.size>25*1024*1024){toast('Ukuran gambar maksimal 25 MB.');e.target.value='';return}try{let imageBlob=file;try{const bitmap=await createImageBitmap(file),scale=Math.min(1,2560/bitmap.width,1440/bitmap.height),canvas=document.createElement('canvas');canvas.width=Math.round(bitmap.width*scale);canvas.height=Math.round(bitmap.height*scale);canvas.getContext('2d').drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close?.();imageBlob=await new Promise(resolve=>canvas.toBlob(blob=>resolve(blob||file),'image/jpeg',.88))}catch{}await storeBackground(imageBlob);settings.backgroundName=file.name;localStorage.setItem('alfalah-settings',JSON.stringify(settings));$('backgroundName').textContent=file.name;applyBackground(imageBlob);toast('Gambar latar berhasil disimpan di perangkat ini')}catch{toast('Gambar gagal disimpan. Coba pilih file yang lebih kecil.')}});
+    $('clearBackground').addEventListener('click',async()=>{try{await storeBackground(null);settings.backgroundName='';localStorage.setItem('alfalah-settings',JSON.stringify(settings));$('backgroundInput').value='';applyBackground(null);toast('Gambar latar dihapus')}catch{toast('Gambar latar gagal dihapus')}});
     $('fullscreenBtn').addEventListener('click',async()=>{try{await document.documentElement.requestFullscreen();$('settingsDialog').close()}catch{toast('Fullscreen tidak didukung browser ini.')}});
     document.addEventListener('keydown',e=>{if(e.key.toLowerCase()==='f'&&!e.ctrlKey&&!e.altKey&&!e.metaKey&&!$('settingsDialog').open)document.documentElement.requestFullscreen?.().catch(()=>{})});
+    applyTextSettings();readBackground().then(blob=>{if(blob)applyBackground(blob)}).catch(()=>{});
     buildInputs('correctionInputs',settings.corrections,'koreksi');buildInputs('adhanLeadInputs',settings.adhanLead,'adhan');buildInputs('iqamahInputs',settings.iqamah,'menit');buildInputs('darkInputs',settings.darkDuration,'gelap');renderPrayers();loadTimes();tick();setInterval(tick,1000);
   })();
   </script>
